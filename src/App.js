@@ -1,6 +1,6 @@
-import logo from './logo.svg';
 import './App.css';
 import { useEffect, useState } from 'react';
+import Country from './components/Country/Country';
 
 function App() {
   const [countries, setCountries] = useState([]);
@@ -8,15 +8,22 @@ function App() {
     fetch('https://restcountries.eu/rest/v2/all')
     .then(res => res.json())
     .then(data => setCountries(data))
+    .catch(error => console.log(error))
   }, [])
 
+  const handleAddCountry = (country) => {
+    console.log(country.name);
+  }
 
   return (
     <div className="App">
-      <h1>{countries.length}</h1>
-      {
-        countries.map(countries => <h1>{countries.name}</h1>)
-      }
+      
+      <div className="show-countries">
+        {
+          countries.map(countries => <Country key={countries.alpha3Code} country={countries} handleAddCountry={handleAddCountry}></Country>)
+        }
+      </div>
+
     </div>
   );
 }
